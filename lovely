@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive App</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    input:focus {
+      outline: 2px solid var(--accent);
+      border-color: transparent;
+    }
+
+    button {
+      padding: 0.65rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--accent);
+      color: #0f172a;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent-hover);
+      color: #fff;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0.85rem;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .delete-btn {
+      background: transparent;
+      color: #f87171;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .delete-btn:hover {
+      background: rgba(248, 113, 113, 0.15);
+      color: #fca5a5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Task Manager</h1>
+    <p>Add items below to manage your list.</p>
+
+    <div class="input-group">
+      <input type="text" id="itemInput" placeholder="Enter a new item..." />
+      <button id="addBtn">Add</button>
+    </div>
+
+    <ul id="itemList"></ul>
+  </div>
+
+  <script>
+    const input = document.getElementById('itemInput');
+    const addBtn = document.getElementById('addBtn');
+    const list = document.getElementById('itemList');
+
+    function addItem() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.textContent = text;
+
+      const delBtn = document.createElement('button');
+      delBtn.textContent = 'Remove';
+      delBtn.className = 'delete-btn';
+      delBtn.onclick = () => li.remove();
+
+      li.append(span, delBtn);
+      list.appendChild(li);
+      input.value = '';
+      input.focus();
+    }
+
+    addBtn.addEventListener('click', addItem);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addItem();
+    });
+  </script>
+</body>
+</html>
